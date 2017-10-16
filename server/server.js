@@ -1,4 +1,6 @@
-class Server {
+import config from './config'
+
+export default class Server {
   constructor(app) {
     this.app = app
     this.createBasicRoute()
@@ -6,7 +8,6 @@ class Server {
   }
 
   start() {
-    let config = require('./config')
     this.app.listen(config.port, () => {
       console.log('Application is running on port ' + config.port)
     })
@@ -18,5 +19,3 @@ class Server {
     })
   }
 }
-
-module.exports = Server
