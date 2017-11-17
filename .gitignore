@@ -58,3 +58,6 @@ typings/
 .env
 
 dist
+
+# Specific configuration such as database user password
+config.json
