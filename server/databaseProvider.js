@@ -15,15 +15,15 @@ export default class DatabaseProvider {
       if (err) throw err
       console.log('Database is Connected!')
       this.connection.query("CREATE DATABASE IF NOT EXISTS lexi_DB", (err, result) => {
-        if (err) throw err;
+        if (err) throw err
         //console.log("Database created");
       })
       this.connection.query("Use lexi_DB")
 
-      var query = "CREATE TABLE IF NOT EXISTS requests (id VARCHAR(36) PRIMARY KEY, user_ip VARCHAR(255), date datetime NOT NULL)";
+      let query = "CREATE TABLE IF NOT EXISTS requests (id VARCHAR(36) PRIMARY KEY, userIp VARCHAR(255), date datetime NOT NULL)";
       this.connection.query(query, (err, result) => {
-        if (err) throw err;
-      });
+        if (err) throw err
+      })
     })
 
     this.router = express.Router()
@@ -35,29 +35,28 @@ export default class DatabaseProvider {
       this.getRegisteredRequests((result) => {
         res.send(result)
       })
-
       this.registerRequest(req.ip)
     })
   }
 
   getRegisteredRequests(callback) {
     this.connection.query("SELECT * FROM requests", (err, result) => {
-      if (err) throw err;
+      if (err) throw err
       callback(result)
-      //console.log(result);
+      //console.log(result)
     })
   }
 
-  registerRequest(user_ip) {
+  registerRequest(userIp) {
     let requestData = {
       id: uuid(),
-      user_ip: user_ip,
+      userIp: userIp,
       date: new Date().toISOString().slice(0, 19).replace('T', ' ')
     }
-    let query = "INSERT INTO requests SET ?";
+    let query = "INSERT INTO requests SET ?"
     this.connection.query(query, requestData, (err, result) => {
-      if (err) throw err;
-        //console.log("1 record inserted");
+      if (err) throw err
+        //console.log("1 record inserted")
     });
   }
 }
